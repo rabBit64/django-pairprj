@@ -1,0 +1,46 @@
+{% extends 'accountbooks/base.html' %}
+{% block content %}
+<div class="container text-start">
+  <!--title-->
+  <div class="row"> 
+    <div class="col"><h2>가계부 데이터 전체 조회</h2></div>
+  </div>
+  <!--가계부 생성 페이지 이동 버튼-->
+  <div class="row"> 
+    <div class="col"> <a href="{% url 'accountbooks:new' %}">가계부 작성</a></div>
+  
+  <!--분류별 조회-->
+  <form action="{% url 'accountbooks:' accountbook.pk %}" method="POST" >
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-secondary">복사하기</button>
+    <div class="form-group">
+      <label for="category">분류별 조회</label><br>
+      <select class="form-select" size=1 name="category" id="category">
+          <option selected>카테고리를 선택 해주세요</option>
+          <option value = "음식">음식</option>
+          <option value = "쇼핑">쇼핑</option>
+          <option value = "교통">교통</option>
+          <option value = "여가">여가</option>
+          <option value = "건강">건강</option>
+      </select>
+  </form>
+  
+</div>
+</div>
+
+<div class="container text-start">
+<table class="table">
+<thead>
+    <tr>
+      <th scope="col">#</th>
+    </tr>
+</thead>
+<tbody>
+  {% for accountbook in accountbooks %}
+  <tr><th scope="row"><p class="mt-2">
+      <a class= 'text-info' href="{% url 'accountbooks:detail' accountbook.pk %}">pk-{{ accountbook.pk }}</a>
+      </p></th></tr>
+  {% endfor %}
+  </table>
+
+{% endblock %}

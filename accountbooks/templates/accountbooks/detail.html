@@ -1,0 +1,71 @@
+{% extends 'accountbooks/base.html' %}
+
+{%block style%}
+<style>
+  .custom-color{
+    background-color:#E3CFC6;
+  }
+  .custom2-color{
+    background-color:#FF7F50;
+  }
+  .custom3-color{
+    background-color: #EFF0F2;
+  }
+  .custom4-color{
+    background-color: #DDA0DD;
+  }
+  .custom5-color{
+    background-color: #07FF7F;
+  }
+
+</style>
+{% endblock %}
+{% block content %}
+  {% if accountbook.category == '음식' %}
+    <div class="card custom2-color">
+  {% elif accountbook.category == '쇼핑' %}
+    <div class="card custom4-color">
+  {% elif accountbook.category == '교통' %}
+    <div class="card bg-info">
+  {% elif accountbook.category == '여가' %}
+    <div class="card custom3-color">
+  {% elif accountbook.category == '건강' %}
+    <div class="card custom5-color">
+  {% else %}
+    <div class="card bg-light">
+  {% endif %}
+
+  <div class="card-header bg-light">
+    <h5 class="card-title">Item #{{ accountbook.pk }}</h5>
+  </div>
+  <div class="card-body"><div class="row"><div class="col"><p>메모</p></div> <div class="col"><p>{{accountbook.description}}</p></div></div></div>
+  <div class="card-body"><div class="row"><div class="col"><p>분류</p></div> <div class="col"><p>{{accountbook.category}}</p></div></div></div>
+  <div class="card-body"><div class="row"><div class="col"><p>사용 금액</p></div> <div class="col"><p>{{accountbook.amount}}</p></div></div></div>
+  <div class="card-body"><div class="row"><div class="col"><p>사용 날짜</p></div> <div class="col"><p>{{accountbook.date}}</p></div></div></div>
+  <div class="card-body"><div class="row"><div class="col"><p>생성 날짜</p></div> <div class="col"><p>{{accountbook.created_at}}</p></div></div></div>
+  <div class="card-body"><div class="row"><div class="col"><p>수정 날짜</p></div> <div class="col"><p>{{accountbook.updated_at}}</p></div></div></div>
+</div>
+<br>
+<div class='container'>
+<!--돌아가기, 수정, 삭제, 복사 --> 
+  <div class="row">
+   <div class="col-3"> 
+    <a href="{% url 'accountbooks:index' %}"><button type="button" class="btn btn-outline-primary">돌아가기</button></a>
+    </div>
+    <div class="col-3">
+    <a href="{% url 'accountbooks:edit' accountbook.pk %}"><button type="button" class="btn btn-outline-primary">수정하기</button></a>
+    </div>
+    <div class="col-3">
+    <form action="{% url 'accountbooks:delete' accountbook.pk %}" method="POST" >
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger">삭제하기</button>
+    </form>
+    </div>
+    <div class="col-3">
+      <form action="{% url 'accountbooks:copy' accountbook.pk %}" method="POST" >
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-secondary">복사하기</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

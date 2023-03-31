@@ -1,0 +1,48 @@
+{% extends 'accountbooks/base.html' %}
+{% block content %}
+<div class="container text-start">
+<!--title-->
+<div class="row"> 
+   <div class="col-6 col-md-4"><h2>가계부 데이터 전체 조회</h2></div>
+</div>
+ <!--가계부 생성 페이지 이동 버튼-->
+<div class="row"> 
+<div class="col-6 col-md-4"> <a href="{% url 'accountbooks:new' %}">가계부 작성</a></div>
+</div>
+
+<!--정렬기준-->
+<form action="{% url 'accountbooks:order' sortkey %}" method= "POST">
+  <div class="form-group">
+    <label for="category">정렬</label><br>
+      <select class="form-select" size=1 name="sortkey" id="sortkey">
+        <option selected>정렬기준 선택 해주세요</option>
+        
+        <option value = "date">사용날짜</option>
+        <option value = "category">분류</option>
+        <option value = "pk">pk</option>
+        <option value = "note">내용</option>
+        
+        <option value = "amount">사용금액</option>
+    </select>
+    <button type="submit">조회</button>
+    </div>
+
+</form>
+
+</div>
+<div class="container text-start">
+<table class="table">
+<thead>
+    <tr>
+      <th scope="col">#</th>
+    </tr>
+</thead>
+<tbody>
+  {% for accountbook in accountbooks %}
+  <tr><th scope="row"><p class="mt-2">
+      <a class= 'text-info' href="{% url 'accountbooks:detail' accountbook.pk %}">pk-{{ accountbook.pk }}</a>
+      </p></th></tr>
+  {% endfor %}
+  </table>
+
+{% endblock %}
